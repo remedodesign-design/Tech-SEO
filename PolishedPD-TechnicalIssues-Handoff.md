@@ -87,3 +87,16 @@ Publishing: `publish_site` with `publishToWebflowSubdomain: true` and no custom 
 | 9 | Freehold non-sequential H2 | Two card headings h5 -> h2 with `heading-style-h5` kept | No skips |
 
 Not fixable through the API (still open): related-post card headings (h2 -> h5) in the Blog Related Component, FAQ card headings (h3 -> h5) in the FAQ card Component, Holmdel "Why Holmdel Families Turn to Polished Pediatric Dentistry for Emergencies" H2 is 73 chars (not on the list), Colts Neck FAQ h4 after h2.
+
+## Round 3: Open items 1-2, scripts and redirecting URLs (2026-09-30) — staging only
+Published with `publishToWebflowSubdomain: true`, no custom domains. Live polishedpd.com re-checked: unchanged (still has the old script and URLs).
+
+| Item | Change | Verified on staging |
+|---|---|---|
+| 404 script `cdn.jsdelivr.net/gh/wonderistweb/library/text-animation_v2.js` | Found in site footer custom code. Removed. Nothing depended on it: no element on any of the 89 sitemap pages uses `text-split` or `js-line-animation` (only the CSS in site head mentions them) | 0 references on home, Meet Us, Savings Plan |
+| `unpkg.com/split-type` (3xx) | Pinned to `split-type@0.3.4/umd/index.min.js` (site footer). Kept because removal was not requested | Present, returns 200 |
+| BirdEye floating widget embed (site footer) | `birdeye.com/embed/v7/...` -> `widgets-v7.birdeye.com/api/embed/v7/...` | New URL on all pages |
+| BirdEye embed, Meet Us page HTML embed (`/11/` id) | Same host change | 2 new-URL refs on /about/meet-us, 0 old |
+| `www.kleer.com/ev4g` (Savings Plan "Fill Out Our Form" button) | Component instance Link prop set to `https://member.clerri.com/?slug=EV4G`, the same URL the other buttons on the page use | 0 kleer refs on staging |
+
+Still open from the 3xx list (Designer only, in Navbar/Footer Components): `maps.app.goo.gl/vvvAvHVoAuDJNZNQ7` (87 pages) redirects to a google.com/maps/place URL. `www.clerri.com/ev4g` was not found in any rendered page; the only clerri links are `member.clerri.com/?slug=EV4G`. `polishedpd.com/` (non-www): a domain-level redirect, not a page link.
