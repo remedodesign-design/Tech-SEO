@@ -70,3 +70,20 @@ Image compression: `compress_assets` format webp on 10 largest JPEG/PNG. Compres
 - Staging subdomain: wond-dinah.webflow.io
 - Custom domain IDs (do NOT publish to): 67f061d7c4eac1e8edb8aa16 (www.polishedpd.com), 67f061d7c4eac1e8edb8aa0e (polishedpd.com)
 - Page IDs: Home 67bf5f35cea87b89abb74e36, Contact ...e49, Meet Us ...e44, Blog Posts tpl ...e4e, Services tpl ...e50, Service Categories tpl ...e4f, Freehold tpl 6983378ff62bcab01181218b, Old Bridge tpl 6983448e9565e7f2fa2040ac, Manalapan tpl 6a01a04429887e78eafdfab9, Holmdel tpl 6a9684b2d78e5d2128a99aca, Insurance 6aaaa8d4946bbc1a182e8937
+
+## Round 2: Screaming Frog items (2026-09-30) — all applied to staging only
+Publishing: `publish_site` with `publishToWebflowSubdomain: true` and no custom domains. Live polishedpd.com re-checked after publish: unchanged.
+
+| # | Item | Change (CMS/element) | Verified on staging |
+|---|---|---|---|
+| 1 | Toothpaste post title over 60 chars | Blog `name` -> "Toothpaste Amounts by Age: Grain-of-Rice vs. Pea-Sized" (54 chars, from the checklist's proposed copy) | Title shows 54 chars |
+| 2 | Images over 100 kB | 7 JPEG/PNG compressed to WebP (8.5 MB -> 3.9 MB). AVIF batches stalled or failed. 37 images remain >100 kB in the library: 17 WebP, 17 AVIF, 3 JPEG | Not resolved, see manual list |
+| 3 | Missing alt (16 images) | Alt set in CMS on main + thumbnail images for 11 blog posts, 3 Manalapan items, Holmdel item; inline sealant table image alt set in post body | No empty alt on the tested pages. Note: setting alt re-hosted each image as a new asset (duplicate files in the library) |
+| 4 | Duplicate H2s (8 pages) | Services: `differentiators-heading` and `timeline-sub-heading-1` made service-specific; Manalapan sealants H2 and emergency blog H2 reworded | Cross-page duplicates gone on the 8 pages |
+| 5 | Meta description over 155 (5 pages) | `post-summary2` shortened on 4 posts; Manalapan dental-cleaning `meta-description` shortened | 122 to 135 chars |
+| 6 | H2 over 70 chars | Colts Neck H2 reworded (static page, `set_text`); cavities post H2 reworded | Both under 70 |
+| 7 | Pacifiers post title = H1 | `h1-heading` -> "When Should Kids Stop Pacifiers and Thumb Sucking?" | H1 differs from title |
+| 8 | Teething meta over 985px | Meta shortened to 123 chars | 123 chars |
+| 9 | Freehold non-sequential H2 | Two card headings h5 -> h2 with `heading-style-h5` kept | No skips |
+
+Not fixable through the API (still open): related-post card headings (h2 -> h5) in the Blog Related Component, FAQ card headings (h3 -> h5) in the FAQ card Component, Holmdel "Why Holmdel Families Turn to Polished Pediatric Dentistry for Emergencies" H2 is 73 chars (not on the list), Colts Neck FAQ h4 after h2.
