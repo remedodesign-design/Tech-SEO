@@ -147,3 +147,12 @@ Heading skips, all 89 staging pages counted on rendered HTML: about 80 pages at 
 rel on external links: 30 -> 7 `target="_blank"` links without rel. Added `rel="noopener noreferrer"` to the Kasper buttons on the Services, Service Categories and Manalapan item templates, the Google Maps button on all eight location pages, and `noopener` on absolute polishedpd.com links on the Manalapan page. Left: two same-origin `href="/"` buttons (Terms, Privacy), three same-origin `polishedpd.com` links inside blog post bodies, and one Kasper link in the dental-sealants CMS body. None of these is cross-origin except the last, which sits in rich text.
 
 Still Designer-only or not possible: image width/height, Blog Related image alt, the Google Maps short-link redirect (href not readable through the API), 37 large images.
+
+## Round 8: housekeeping, Holmdel H2, protocol-relative link, re-check (2026-09-30) — staging only
+- Dev Checklist F and G updated for all rows from a fresh staging check of the 89 sitemap pages (Done 128, Not needed 44, Not done 18, Partial 8).
+- Protocol-relative link: the footer `//instant.page/5.2.0` now uses `https://`. It was the only one on the site.
+- Holmdel emergency H2 (73 chars, in the CMS `body`): now "Why Holmdel Families Choose Us for Pediatric Dental Emergencies" (63 chars). Wording is not from the sheet's Proposed Fix Copy column, which has no entry for it. The `header-title` field still holds the old text but does not render as an H2.
+- Home "0 words": the crawl row is the non-www URL `https://polishedpd.com/`, a 301 redirect stub. The real home page has about 795 words. Marked Not needed. Freehold (181 words) and readability were left as content decisions for the SEO team.
+- Insurance page and any live publish: not touched.
+- Still open: 3 H2s over 70 characters (Manalapan restorative dentistry page, "tips-to-help-picky-eaters" post, "infant-first-dentist-visit" post), 6 pages with one skipped heading level (rich-text tags or a class combo Webflow will not apply), image size attributes, Blog Related image alt, Google Maps short-link redirect, 37 images over 100 kB, security response headers.
+- Visual check: Chromium screenshots of live vs staging on 10 pages. Blog listing, Holmdel emergency page and Home compared by eye and match apart from expected copy changes (blog card excerpts shortened in round 2, the new Holmdel H2) and floating widgets. The remaining crops were not reviewed; a permission block stopped the last image-crop step.
