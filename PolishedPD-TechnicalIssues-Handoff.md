@@ -118,3 +118,17 @@ Retagged with the matching `heading-style-hN` class so the look is kept. Publish
 No change needed: Home, Manalapan template and Matawan already have no skips in their own headings (Home and the template skips come from Components). Left as is: Meet Us "We Make Dental Care Fun" h5 (its look needs `heading-style-h5` + `text-align-center`, and that combo would not apply), Savings Plan h6 with three classes (`text-color-secondary`, `primary`, `blsck`), and the Holmdel emergency H2 (73 chars, in the CMS body).
 
 Images: not re-run. 37 remain over 100 kB: 17 WebP, 17 AVIF and 3 JPEG that grew when converted. Compression replaces the file in place with no copy of the original, and re-compressing WebP/AVIF will not help. These need re-exporting outside Webflow.
+
+## Round 5: Component internals are editable through the API (2026-09-30) — staging only
+Correction to earlier notes: elements inside Components can be read and written with `scope_component_id` (on the element tool, and `data_component_tool` / `data_component_props_tool`), and the changes publish. Retagged with the look kept:
+
+| Component | Change |
+|---|---|
+| FAQ card (question) | h5 -> h4, `heading-style-h5` |
+| CMS Section / Blog / Related (card title) | h5 -> h3, `heading-style-h5` + `text-color-secondary` |
+| Section / Membership (three pricing headings) | h5 -> h4, `heading-style-h5` |
+| Team Card | name h4 -> h3 (`heading-style-h4` + `text-color-secondary`), role h6 -> h4 (`heading-style-h6`) |
+
+Staging vs live heading skips: Home 3 -> 0, Patient Resources 3 -> 0, Contact 1 -> 0, blog listing 0, services 0, Meet Us 7 -> 1, Savings Plan 4 -> 1, First Visit 3 -> 1. Left: Meet Us h2 -> h5 (needs a two-class combo Webflow would not apply), Savings Plan h3 -> h6 (three classes), First Visit h2 -> h6.
+
+Not possible: binding Blog Related image alt to the post name (CMS fields are not offered as sources inside the Component, so it stays a Designer task). `rel="noopener"`: judged not needed, modern browsers default `_blank` links to noopener.
