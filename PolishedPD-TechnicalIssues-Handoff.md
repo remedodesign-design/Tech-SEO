@@ -100,3 +100,21 @@ Published with `publishToWebflowSubdomain: true`, no custom domains. Live polish
 | `www.kleer.com/ev4g` (Savings Plan "Fill Out Our Form" button) | Component instance Link prop set to `https://member.clerri.com/?slug=EV4G`, the same URL the other buttons on the page use | 0 kleer refs on staging |
 
 Still open from the 3xx list (Designer only, in Navbar/Footer Components): `maps.app.goo.gl/vvvAvHVoAuDJNZNQ7` (87 pages) redirects to a google.com/maps/place URL. `www.clerri.com/ev4g` was not found in any rendered page; the only clerri links are `member.clerri.com/?slug=EV4G`. `polishedpd.com/` (non-www): a domain-level redirect, not a page link.
+
+## Round 4: remaining heading skips (2026-09-30) — staging only
+Retagged with the matching `heading-style-hN` class so the look is kept. Published to staging only; live re-checked and unchanged. Skips counted on rendered HTML, staging vs live:
+
+| Page | Change | Result |
+|---|---|---|
+| First Visit | four h4 and four h5 -> h3 (`heading-style-h4` / `heading-style-h5`) | 3 skips -> 1 (h2 -> h6 left, in a Component) |
+| Meet Us | Sensory Play h4 -> h3; other static retags | 7 skips -> 6. The team cards (h4 name, h6 role) sit in a list that did not take the edit on publish, so they stay |
+| Blog listing | card title h5 -> h3 (`heading-style-h5`, `text-color-secondary`) | 1 -> 0 |
+| Colts Neck, Monroe, East Brunswick | six FAQ h4 -> h3 (`heading-style-h4`) each | 1 -> 0 |
+| Holmdel (static) | six FAQ h4 -> h3, final h5 -> h4 | 1 -> 0 |
+| Old Bridge (static) | three h5 -> h3 (`heading-style-h5`, `text-color-secondary`) | 1 -> 0 |
+| Manalapan (static) | h5 -> h3 (`heading-style-h5`, `text-color-secondary`) | 1 -> 0 |
+| Patient Resources | h6 -> h3 (`heading-style-h6`, `text-color-secondary`) | Static heading fixed; 3 skips remain, from Component pricing headings (h3 -> h5) |
+
+No change needed: Home, Manalapan template and Matawan already have no skips in their own headings (Home and the template skips come from Components). Left as is: Meet Us "We Make Dental Care Fun" h5 (its look needs `heading-style-h5` + `text-align-center`, and that combo would not apply), Savings Plan h6 with three classes (`text-color-secondary`, `primary`, `blsck`), and the Holmdel emergency H2 (73 chars, in the CMS body).
+
+Images: not re-run. 37 remain over 100 kB: 17 WebP, 17 AVIF and 3 JPEG that grew when converted. Compression replaces the file in place with no copy of the original, and re-compressing WebP/AVIF will not help. These need re-exporting outside Webflow.
