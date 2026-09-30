@@ -87,3 +87,101 @@ Publishing: `publish_site` with `publishToWebflowSubdomain: true` and no custom 
 | 9 | Freehold non-sequential H2 | Two card headings h5 -> h2 with `heading-style-h5` kept | No skips |
 
 Not fixable through the API (still open): related-post card headings (h2 -> h5) in the Blog Related Component, FAQ card headings (h3 -> h5) in the FAQ card Component, Holmdel "Why Holmdel Families Turn to Polished Pediatric Dentistry for Emergencies" H2 is 73 chars (not on the list), Colts Neck FAQ h4 after h2.
+
+## Round 3: Open items 1-2, scripts and redirecting URLs (2026-09-30) — staging only
+Published with `publishToWebflowSubdomain: true`, no custom domains. Live polishedpd.com re-checked: unchanged (still has the old script and URLs).
+
+| Item | Change | Verified on staging |
+|---|---|---|
+| 404 script `cdn.jsdelivr.net/gh/wonderistweb/library/text-animation_v2.js` | Found in site footer custom code. Removed. Nothing depended on it: no element on any of the 89 sitemap pages uses `text-split` or `js-line-animation` (only the CSS in site head mentions them) | 0 references on home, Meet Us, Savings Plan |
+| `unpkg.com/split-type` (3xx) | Pinned to `split-type@0.3.4/umd/index.min.js` (site footer). Kept because removal was not requested | Present, returns 200 |
+| BirdEye floating widget embed (site footer) | `birdeye.com/embed/v7/...` -> `widgets-v7.birdeye.com/api/embed/v7/...` | New URL on all pages |
+| BirdEye embed, Meet Us page HTML embed (`/11/` id) | Same host change | 2 new-URL refs on /about/meet-us, 0 old |
+| `www.kleer.com/ev4g` (Savings Plan "Fill Out Our Form" button) | Component instance Link prop set to `https://member.clerri.com/?slug=EV4G`, the same URL the other buttons on the page use | 0 kleer refs on staging |
+
+Still open from the 3xx list (Designer only, in Navbar/Footer Components): `maps.app.goo.gl/vvvAvHVoAuDJNZNQ7` (87 pages) redirects to a google.com/maps/place URL. `www.clerri.com/ev4g` was not found in any rendered page; the only clerri links are `member.clerri.com/?slug=EV4G`. `polishedpd.com/` (non-www): a domain-level redirect, not a page link.
+
+## Round 4: remaining heading skips (2026-09-30) — staging only
+Retagged with the matching `heading-style-hN` class so the look is kept. Published to staging only; live re-checked and unchanged. Skips counted on rendered HTML, staging vs live:
+
+| Page | Change | Result |
+|---|---|---|
+| First Visit | four h4 and four h5 -> h3 (`heading-style-h4` / `heading-style-h5`) | 3 skips -> 1 (h2 -> h6 left, in a Component) |
+| Meet Us | Sensory Play h4 -> h3; other static retags | 7 skips -> 6. The team cards (h4 name, h6 role) sit in a list that did not take the edit on publish, so they stay |
+| Blog listing | card title h5 -> h3 (`heading-style-h5`, `text-color-secondary`) | 1 -> 0 |
+| Colts Neck, Monroe, East Brunswick | six FAQ h4 -> h3 (`heading-style-h4`) each | 1 -> 0 |
+| Holmdel (static) | six FAQ h4 -> h3, final h5 -> h4 | 1 -> 0 |
+| Old Bridge (static) | three h5 -> h3 (`heading-style-h5`, `text-color-secondary`) | 1 -> 0 |
+| Manalapan (static) | h5 -> h3 (`heading-style-h5`, `text-color-secondary`) | 1 -> 0 |
+| Patient Resources | h6 -> h3 (`heading-style-h6`, `text-color-secondary`) | Static heading fixed; 3 skips remain, from Component pricing headings (h3 -> h5) |
+
+No change needed: Home, Manalapan template and Matawan already have no skips in their own headings (Home and the template skips come from Components). Left as is: Meet Us "We Make Dental Care Fun" h5 (its look needs `heading-style-h5` + `text-align-center`, and that combo would not apply), Savings Plan h6 with three classes (`text-color-secondary`, `primary`, `blsck`), and the Holmdel emergency H2 (73 chars, in the CMS body).
+
+Images: not re-run. 37 remain over 100 kB: 17 WebP, 17 AVIF and 3 JPEG that grew when converted. Compression replaces the file in place with no copy of the original, and re-compressing WebP/AVIF will not help. These need re-exporting outside Webflow.
+
+## Round 5: Component internals are editable through the API (2026-09-30) — staging only
+Correction to earlier notes: elements inside Components can be read and written with `scope_component_id` (on the element tool, and `data_component_tool` / `data_component_props_tool`), and the changes publish. Retagged with the look kept:
+
+| Component | Change |
+|---|---|
+| FAQ card (question) | h5 -> h4, `heading-style-h5` |
+| CMS Section / Blog / Related (card title) | h5 -> h3, `heading-style-h5` + `text-color-secondary` |
+| Section / Membership (three pricing headings) | h5 -> h4, `heading-style-h5` |
+| Team Card | name h4 -> h3 (`heading-style-h4` + `text-color-secondary`), role h6 -> h4 (`heading-style-h6`) |
+
+Staging vs live heading skips: Home 3 -> 0, Patient Resources 3 -> 0, Contact 1 -> 0, blog listing 0, services 0, Meet Us 7 -> 1, Savings Plan 4 -> 1, First Visit 3 -> 1. Left: Meet Us h2 -> h5 (needs a two-class combo Webflow would not apply), Savings Plan h3 -> h6 (three classes), First Visit h2 -> h6.
+
+Not possible: binding Blog Related image alt to the post name (CMS fields are not offered as sources inside the Component, so it stays a Designer task). `rel="noopener"`: judged not needed, modern browsers default `_blank` links to noopener.
+
+## Round 6: rel on external links, image size attributes (2026-09-30) — staging only
+- **rel: works.** Using the `rel` **custom attribute** (`set_attributes`, not the link setting, which is dropped on publish) on link elements inside Components publishes correctly. Set `rel="noopener noreferrer"` on Navbar and Footer links (icon links, scheduling buttons, social, contact, remedo.io), the Section / Footer and Service Masthead Kasper buttons, Button / Booking and the three Membership clerri buttons, and `rel="noopener"` on the shared Button / Global and Button/Primary components. Also set on the Home and Contact map links. Screaming Frog-style count of `target="_blank"` links without rel across the 89 staging pages: several hundred -> 30.
+- **Still without rel (30 links, page-level, per page or template):** Kasper `w-inline-block` links and Google Maps `data-button-style="secondary"` links on the services, service-categories and Manalapan item pages; three `https://www.polishedpd.com/` blank links; one on terms-and-conditions and two on /post/what-causes-cavities-in-kids. These sit in page or CMS-template link elements not yet swept.
+- **Image width/height: not possible through the API.** `set_attributes` on an Image element (page-level, Navbar logo, Blog Related image) returns OPERATION_FAILED for width and height. Designer-only (Webflow reserves these attributes).
+- **Blog Related image alt binding: not possible.** CMS fields are not offered as alt sources inside the Component; Designer-only.
+
+## Round 7: finishing the partial items (2026-09-30) — staging only
+Heading skips, all 89 staging pages counted on rendered HTML: about 80 pages at the start -> 6.
+- Fixed: Meet Us "We Make Dental Care Fun" h5 -> h3 (`heading-style-h5`, centered with the site's `data-text-align-center="true"` attribute); Section / FAQs subtitle h6 -> h3 (fixes First Visit); Service Categories template card headings h4 -> h3 (`heading-style-h4`, `text-color-secondary`); FAQ question headings h5 -> h4 in the Freehold, Old Bridge and Holmdel item templates (their own `Heading` / `Heading 5` classes keep the look).
+- Still open (6 pages): Savings Plan h3 -> h6 (look depends on `.text-color-secondary.primary.blsck`; Webflow will not apply a four-class combo, and an h4 would lose the uppercase h6 look, so it was reverted); `/services/emergency-dentistry`, `infant-dentistry`, `sedation-dentistry` (h2 -> h6) and `/service-categories/preventive-dentistry`, `restorative-dentistry` (h2 -> h4) come from `<h6>` / `<h4>` tags inside CMS rich text bodies, where a retag changes the look. Decision needed.
+
+rel on external links: 30 -> 7 `target="_blank"` links without rel. Added `rel="noopener noreferrer"` to the Kasper buttons on the Services, Service Categories and Manalapan item templates, the Google Maps button on all eight location pages, and `noopener` on absolute polishedpd.com links on the Manalapan page. Left: two same-origin `href="/"` buttons (Terms, Privacy), three same-origin `polishedpd.com` links inside blog post bodies, and one Kasper link in the dental-sealants CMS body. None of these is cross-origin except the last, which sits in rich text.
+
+Still Designer-only or not possible: image width/height, Blog Related image alt, the Google Maps short-link redirect (href not readable through the API), 37 large images.
+
+## Round 8: housekeeping, Holmdel H2, protocol-relative link, re-check (2026-09-30) — staging only
+- Dev Checklist F and G updated for all rows from a fresh staging check of the 89 sitemap pages (Done 128, Not needed 44, Not done 18, Partial 8).
+- Protocol-relative link: the footer `//instant.page/5.2.0` now uses `https://`. It was the only one on the site.
+- Holmdel emergency H2 (73 chars, in the CMS `body`): now "Why Holmdel Families Choose Us for Pediatric Dental Emergencies" (63 chars). Wording is not from the sheet's Proposed Fix Copy column, which has no entry for it. The `header-title` field still holds the old text but does not render as an H2.
+- Home "0 words": the crawl row is the non-www URL `https://polishedpd.com/`, a 301 redirect stub. The real home page has about 795 words. Marked Not needed. Freehold (181 words) and readability were left as content decisions for the SEO team.
+- Insurance page and any live publish: not touched.
+- Still open: 3 H2s over 70 characters (Manalapan restorative dentistry page, "tips-to-help-picky-eaters" post, "infant-first-dentist-visit" post), 6 pages with one skipped heading level (rich-text tags or a class combo Webflow will not apply), image size attributes, Blog Related image alt, Google Maps short-link redirect, 37 images over 100 kB, security response headers.
+- Visual check: Chromium screenshots of live vs staging on 10 pages. Blog listing, Holmdel emergency page and Home compared by eye and match apart from expected copy changes (blog card excerpts shortened in round 2, the new Holmdel H2) and floating widgets. The remaining crops were not reviewed; a permission block stopped the last image-crop step.
+
+## Round 9: remaining H2 and skipped-level fixes (2026-09-30) — staging only
+Sitewide check of all 89 staging pages after this round (entities decoded, so apostrophes count as one character): skipped heading levels 0, H2s over 70 characters 0, repeated H2 text 0. An earlier length count treated `&#x27;` as six characters and over-reported; the picky-eaters H2 was 65 characters, so its reword was not needed.
+
+| Item | Change | Verified |
+|---|---|---|
+| Shared Accordion component heading | h4 -> h3, `heading-style-h4` | Service Categories preventive and restorative pages: no skip |
+| Emergency, infant and sedation dentistry (`solution-answer` rich text) | `<h6>` -> `<h3>` | No skip; renders as a subheading, not a small label |
+| Savings Plan "Why Choose a Polished Savings Plan?" | h6 -> h4, keeps its three classes | No skip; loses the small uppercase h6 look |
+| Manalapan restorative H2 | "BioFLX Tooth-Colored Crowns for Kids in Manalapan" (was 76) | Text diff of page before/after: only that line changed |
+| Infant first-visit post H2 | "Schedule Your Baby's First Visit at Polished Pediatric Dentistry" (was 71) | Same diff check |
+| Biannual checkups post H2 | "First Visit vs. the Third or Fourth: What Changes" (was 76) | Same diff check |
+| Freehold preventive dentistry H2 | "Schedule Your Child's Next Cleaning and Exam Today" (was 77) | Same diff check |
+| Picky-eaters post H2 | "We're Here to Help, However Your Child Eats" (was 65, already within limit) | Same diff check |
+
+CMS bodies were resent in full, so each was verified by comparing the rendered page text before and after publishing. Only the intended heading lines differ.
+
+Dev Checklist updated for these rows. Still open: image size attributes, Blog Related image alt, Google Maps short-link redirect, 37 large images, security response headers, content decisions.
+
+## Round 10: image alt text closed out (2026-09-30) — staging only
+- Blog Related card image alt was added in Designer by the team. Verified on staging: the related cards on blog posts render descriptive alt text (live still has empty alt until the live publish).
+- Sitewide check of all 89 staging pages for `<img>` with a missing or empty alt found three left: Holmdel hero (set to "Smiling toddler boy sitting in a pink dental chair") and the image on the two Team Members template pages (`/team-members/jennifer`, `/team-members/name`, placeholder starter content; alt prop set to "Toddler biting into a red apple outdoors").
+- Result after publishing to staging: 0 images with missing or empty alt. Images Missing Alt Text is Done. Dev Checklist row 97 and Issue Overview updated.
+- Remaining open from the Asana scope: image size attributes (Designer), 37 images over 100 kB (re-export), Google Maps short link (Designer) and the non-www redirect (domain level).
+
+## Round 11: decisions and image export (2026-09-30)
+- Image width and height attributes: decision not to do them (fixed dimensions can affect responsive layout). Marked Not needed in the Dev Checklist and Issue Overview.
+- Google Maps short link, non-www redirect and the placeholder Team Members pages: left as is by decision. 3xx marked Done with the remainder noted as accepted.
+- Images over 100 kB: the earlier "37" counted library assets. Alt-text edits had re-hosted CMS images as new files, so a crawl of all 89 staging pages found 60 images actually served over 100 kB (about 30 MB, several 1 to 3 MB PNGs). They were exported for manual compression to `images-to-compress/` (not committed) with a `manifest.csv` listing size, pages using each and source URL. After compression, re-upload and swap the image on each page or CMS item (compressing inside Webflow replaces the file with no backup).
