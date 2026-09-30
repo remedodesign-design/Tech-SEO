@@ -174,3 +174,9 @@ Sitewide check of all 89 staging pages after this round (entities decoded, so ap
 CMS bodies were resent in full, so each was verified by comparing the rendered page text before and after publishing. Only the intended heading lines differ.
 
 Dev Checklist updated for these rows. Still open: image size attributes, Blog Related image alt, Google Maps short-link redirect, 37 large images, security response headers, content decisions.
+
+## Round 10: image alt text closed out (2026-09-30) — staging only
+- Blog Related card image alt was added in Designer by the team. Verified on staging: the related cards on blog posts render descriptive alt text (live still has empty alt until the live publish).
+- Sitewide check of all 89 staging pages for `<img>` with a missing or empty alt found three left: Holmdel hero (set to "Smiling toddler boy sitting in a pink dental chair") and the image on the two Team Members template pages (`/team-members/jennifer`, `/team-members/name`, placeholder starter content; alt prop set to "Toddler biting into a red apple outdoors").
+- Result after publishing to staging: 0 images with missing or empty alt. Images Missing Alt Text is Done. Dev Checklist row 97 and Issue Overview updated.
+- Remaining open from the Asana scope: image size attributes (Designer), 37 images over 100 kB (re-export), Google Maps short link (Designer) and the non-www redirect (domain level).
