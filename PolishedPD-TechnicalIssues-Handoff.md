@@ -156,3 +156,21 @@ Still Designer-only or not possible: image width/height, Blog Related image alt,
 - Insurance page and any live publish: not touched.
 - Still open: 3 H2s over 70 characters (Manalapan restorative dentistry page, "tips-to-help-picky-eaters" post, "infant-first-dentist-visit" post), 6 pages with one skipped heading level (rich-text tags or a class combo Webflow will not apply), image size attributes, Blog Related image alt, Google Maps short-link redirect, 37 images over 100 kB, security response headers.
 - Visual check: Chromium screenshots of live vs staging on 10 pages. Blog listing, Holmdel emergency page and Home compared by eye and match apart from expected copy changes (blog card excerpts shortened in round 2, the new Holmdel H2) and floating widgets. The remaining crops were not reviewed; a permission block stopped the last image-crop step.
+
+## Round 9: remaining H2 and skipped-level fixes (2026-09-30) — staging only
+Sitewide check of all 89 staging pages after this round (entities decoded, so apostrophes count as one character): skipped heading levels 0, H2s over 70 characters 0, repeated H2 text 0. An earlier length count treated `&#x27;` as six characters and over-reported; the picky-eaters H2 was 65 characters, so its reword was not needed.
+
+| Item | Change | Verified |
+|---|---|---|
+| Shared Accordion component heading | h4 -> h3, `heading-style-h4` | Service Categories preventive and restorative pages: no skip |
+| Emergency, infant and sedation dentistry (`solution-answer` rich text) | `<h6>` -> `<h3>` | No skip; renders as a subheading, not a small label |
+| Savings Plan "Why Choose a Polished Savings Plan?" | h6 -> h4, keeps its three classes | No skip; loses the small uppercase h6 look |
+| Manalapan restorative H2 | "BioFLX Tooth-Colored Crowns for Kids in Manalapan" (was 76) | Text diff of page before/after: only that line changed |
+| Infant first-visit post H2 | "Schedule Your Baby's First Visit at Polished Pediatric Dentistry" (was 71) | Same diff check |
+| Biannual checkups post H2 | "First Visit vs. the Third or Fourth: What Changes" (was 76) | Same diff check |
+| Freehold preventive dentistry H2 | "Schedule Your Child's Next Cleaning and Exam Today" (was 77) | Same diff check |
+| Picky-eaters post H2 | "We're Here to Help, However Your Child Eats" (was 65, already within limit) | Same diff check |
+
+CMS bodies were resent in full, so each was verified by comparing the rendered page text before and after publishing. Only the intended heading lines differ.
+
+Dev Checklist updated for these rows. Still open: image size attributes, Blog Related image alt, Google Maps short-link redirect, 37 large images, security response headers, content decisions.
