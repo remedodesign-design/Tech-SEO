@@ -180,3 +180,8 @@ Dev Checklist updated for these rows. Still open: image size attributes, Blog Re
 - Sitewide check of all 89 staging pages for `<img>` with a missing or empty alt found three left: Holmdel hero (set to "Smiling toddler boy sitting in a pink dental chair") and the image on the two Team Members template pages (`/team-members/jennifer`, `/team-members/name`, placeholder starter content; alt prop set to "Toddler biting into a red apple outdoors").
 - Result after publishing to staging: 0 images with missing or empty alt. Images Missing Alt Text is Done. Dev Checklist row 97 and Issue Overview updated.
 - Remaining open from the Asana scope: image size attributes (Designer), 37 images over 100 kB (re-export), Google Maps short link (Designer) and the non-www redirect (domain level).
+
+## Round 11: decisions and image export (2026-09-30)
+- Image width and height attributes: decision not to do them (fixed dimensions can affect responsive layout). Marked Not needed in the Dev Checklist and Issue Overview.
+- Google Maps short link, non-www redirect and the placeholder Team Members pages: left as is by decision. 3xx marked Done with the remainder noted as accepted.
+- Images over 100 kB: the earlier "37" counted library assets. Alt-text edits had re-hosted CMS images as new files, so a crawl of all 89 staging pages found 60 images actually served over 100 kB (about 30 MB, several 1 to 3 MB PNGs). They were exported for manual compression to `images-to-compress/` (not committed) with a `manifest.csv` listing size, pages using each and source URL. After compression, re-upload and swap the image on each page or CMS item (compressing inside Webflow replaces the file with no backup).
